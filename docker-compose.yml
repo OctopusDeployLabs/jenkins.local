@@ -1,7 +1,7 @@
 version: "2"
 services:
   jenkins:
-    image: docker.io/bitnami/jenkins:2-debian-10
+    image: docker.io/bitnami/jenkins:latest
     environment:
       DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "1"
       JAVA_OPTS: ""
