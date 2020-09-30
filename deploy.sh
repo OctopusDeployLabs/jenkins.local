@@ -1,3 +1,5 @@
+tag=$(get_octopusvariable "Project.Jenkins.ServerTag")
+
 echo "Stop jenkins-local."
 systemctl is-active --quiet jenkins-local && systemctl stop jenkins-local
 
@@ -19,8 +21,13 @@ if [ ! -d "jenkins_plugins" ]; then
     echo "jenkins_plugins/ configured."
 fi
 
+if [ ! f "jenkins_data/cacerts" ]; then
+    docker run --volume "$(pwd)/jenkins_data:/bitnami/jenkins" \
+        bitnami/jenkins:latest \
+        cp /opt/bitnami/java/jre/lib/security/cacerts jenkins_data/cacerts
+fi
+
 echo "Install plugins."
-tag=$(get_octopusvariable "Project.Jenkins.ServerTag")
 
 docker run --volume "$(pwd)/jenkins_plugins:/usr/share/jenkins/ref/plugins" \
     bitnami/jenkins:$tag \
