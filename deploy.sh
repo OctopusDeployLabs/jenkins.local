@@ -11,6 +11,21 @@ if [ ! -d "jenkins_data" ]; then
     echo "jenkins_data/ configured."
 fi
 
+if [ ! -d "jenkins_plugins" ]; then
+    echo "Create jenkins_plugins folder."
+    mkdir jenkins_plugins
+    echo "Set owner of jenkins_plugins/."
+    chown -R jenkins:0 jenkins_plugins/
+    echo "jenkins_plugins/ configured."
+fi
+
+echo "Install plugins."
+tag=$(get_octopusvariable "Project.Jenkins.ServerTag")
+
+docker run --volume "$(pwd)/jenkins_plugins:/usr/share/jenkins/ref/plugins" \
+    bitnami/jenkins:$tag \
+    install-plugins.sh octopusdeploy:latest custom-tools-plugin:latest
+
 docker-compose pull
 docker-compose up -d
 

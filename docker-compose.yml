@@ -13,3 +13,4 @@ services:
       - 50000:50000
     volumes:
       - ./jenkins_data:/bitnami/jenkins
+      - ./jenkins_plugins:/usr/share/jenkins/ref/plugins
