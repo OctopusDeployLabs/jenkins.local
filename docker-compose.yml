@@ -12,7 +12,4 @@ services:
       - 8443:8443
       - 50000:50000
     volumes:
-      - jenkins_data:/bitnami/jenkins
-volumes:
-  jenkins_data:
-    driver: local
+      - ./jenkins_data:/bitnami/jenkins
